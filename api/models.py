@@ -122,7 +122,8 @@ class PricePolicy(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    valid_period_choices = ((1, '1天'), (3, '3天'),
+    valid_period_choices = (
+        (1, '1天'), (3, '3天'),
                             (7, '1周'), (14, '2周'),
                             (30, '1个月'),
                             (60, '2个月'),
