@@ -88,9 +88,10 @@ class CoursesView(APIView):
                     # 根据课程去找问题
                     # questiion_list = course_obj.oftenaskedquestion_set.all()
                     from django.contrib.contenttypes.models import ContentType
-                    print(course_obj._meta.model_name,'表名')
+                    print(course_obj._meta.model_name, '表名')
                     ct_id = ContentType.objects.filter(app_label='api', model=course_obj._meta.model_name).first().id
                     o_list = models.OftenAskedQuestion.objects.filter(content_type_id=ct_id, object_id=course_obj.id)
+                    print(o_list)
                     ser = my_seri.CourseQuestionSerializer(instance=o_list, many=True)
                 else:
                     ser = my_seri.CourseSerializer(instance=course_obj)
@@ -100,6 +101,7 @@ class CoursesView(APIView):
                 ser = my_seri.CourseSerializer(instance=course_list, many=True)
             res["data"] = ser.data
         except Exception as e:
+            print(e)
             res["state"] = 40000
             res["msg"] = "出错啦！"
         return JsonResponse(res)
@@ -141,6 +143,7 @@ class DegreeView(APIView):
             "data": None,
             "msg": None
         })
+
 
 class NewsView(APIView):
     def get(self, request, *args, **kwargs):

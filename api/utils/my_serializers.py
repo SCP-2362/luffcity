@@ -19,7 +19,7 @@ class CourseSerializer(ModelSerializer):
         detail_obj = models.CourseDetail.objects.filter(course=obj).first()
         return CourseDetailSerializer(detail_obj).data
 
-		
+
 class CourseDetailSerializer(ModelSerializer):
     price = serializers.SerializerMethodField()
     outline = serializers.SerializerMethodField()
@@ -50,14 +50,13 @@ class CourseChapterSerializer(ModelSerializer):
 
 
 class CourseQuestionSerializer(ModelSerializer):
-    course_question = serializers.CharField(source="coursedetail.oftenaskedquestion")
 
     class Meta:
-        model = models.Course
+        model = models.OftenAskedQuestion
         fields = '__all__'
         depth = 2
 
-		
+
 class PricePolicySerializer(ModelSerializer):
     valid_period = serializers.SerializerMethodField()
 
