@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-
 from .. import models
 
 
@@ -20,7 +19,7 @@ class CourseSerializer(ModelSerializer):
         detail_obj = models.CourseDetail.objects.filter(course=obj).first()
         return CourseDetailSerializer(detail_obj).data
 
-
+		
 class CourseDetailSerializer(ModelSerializer):
     price = serializers.SerializerMethodField()
     outline = serializers.SerializerMethodField()
@@ -58,7 +57,7 @@ class CourseQuestionSerializer(ModelSerializer):
         fields = '__all__'
         depth = 2
 
-
+		
 class PricePolicySerializer(ModelSerializer):
     valid_period = serializers.SerializerMethodField()
 
@@ -109,3 +108,4 @@ class ArticleContentSerializer(serializers.Serializer):
     agree_num = serializers.CharField()
     content = serializers.CharField() #文章详情
     collect_num = serializers.CharField()  # 收藏数
+
