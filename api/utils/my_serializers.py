@@ -108,3 +108,5 @@ class ArticleContentSerializer(serializers.Serializer):
     content = serializers.CharField() #文章详情
     collect_num = serializers.CharField()  # 收藏数
 
+
+

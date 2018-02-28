@@ -1,9 +1,11 @@
 from django.db.models import F
 from django.http import JsonResponse
+
 from rest_framework.views import APIView
-from rest_framework import serializers
+
 
 from api.utils import my_serializers as my_seri
+
 from . import models
 
 
@@ -167,23 +169,29 @@ class NewsView(APIView):
             result['msg'] = str(e)
             return JsonResponse(result)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, pk=None, **kwargs):
         result = {
             "state": '',
             "data": '',
             "msg": None
         }
         try:
-            pk = kwargs.get('pk')
-            if pk:
-                art_obj = models.Article.objects.filter(id=pk).update(agree_num=F('agree_num') + 1)
+            pk = pk
+            userToken = request.data.get('userToken')
+            UserAuthToken = models.UserAuthToken.objects.filter(token=userToken).first()
+            TypeID = models.ContentType.objects.filter(app_label='api', model='article').first()
+            print(TypeID, '对象')
+            agree_obj = models.Agree.objects.filter(object_id=UserAuthToken.user_id, account_id=pk)
+            if not agree_obj:
+                models.Agree.objects.create(content_type=TypeID, object_id=UserAuthToken.user_id, account_id=pk)
+                models.Article.objects.filter(id=pk).update(agree_num=F('agree_num') + 1)
                 art_obj = models.Article.objects.get(id=pk)
                 ret = my_seri.ArticleContentSerializer(instance=art_obj)
-
+                result['state'] = 10000
+                result['data'] = ret.data
             else:
-                pass
-            result['state'] = 10000
-            result['data'] = ret.data
+                result['state'] = 40000
+                result['msg'] ='已经点过赞，不需要重新点赞'
             return JsonResponse(result)
         except Exception as e:
             result['state'] = 40000
@@ -200,15 +208,21 @@ class NewsViewSC(APIView):
         }
         try:
             pk = kwargs.get('pk')
-            if pk:
-                art_obj = models.Article.objects.filter(id=pk).update(collect_num=F('collect_num') + 1)
+            userToken=request.data.get('userToken')
+            UserAuthToken = models.UserAuthToken.objects.filter(token=userToken).first()
+            TypeID = models.ContentType.objects.filter(app_label='api', model='article').first()
+            print(TypeID,'对象')
+            agree_obj = models.Collection.objects.filter(object_id=UserAuthToken.user_id, account_id=pk)
+            if not agree_obj:
+                models.Collection.objects.create(content_type=TypeID, object_id=UserAuthToken.user_id, account_id=pk)
+                models.Article.objects.filter(id=pk).update(collect_num=F('collect_num') + 1)
                 art_obj = models.Article.objects.get(id=pk)
                 ret = my_seri.ArticleContentSerializer(instance=art_obj)
-                print(art_obj.collect_num, '1')
+                result['state'] = 10000
+                result['data'] = ret.data
             else:
-                pass
-            result['state'] = 10000
-            result['data'] = ret.data
+                result['state'] = 40000
+                result['msg'] ='已经收藏，不要重新收藏'
             return JsonResponse(result)
         except Exception as e:
             result['state'] = 40000
