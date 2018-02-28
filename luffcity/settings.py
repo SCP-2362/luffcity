@@ -76,13 +76,23 @@ WSGI_APPLICATION = 'luffcity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'luffcity',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '3306'
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'luffcity',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '',
+        'USER': 'luff',
+        'PASSWORD': '123',
+        'HOST': '192.168.20.178',
         'PORT': '3306'
     }
 }
