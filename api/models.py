@@ -1,6 +1,10 @@
-from django.db import models
-from django.contrib.contenttypes.models import ContentType
+import hashlib
+import datetime
+
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+
 
 # ##################  课程相关业务表 13张 #################
 
@@ -118,7 +122,8 @@ class PricePolicy(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-    valid_period_choices = ((1, '1天'), (3, '3天'),
+    valid_period_choices = (
+        (1, '1天'), (3, '3天'),
                             (7, '1周'), (14, '2周'),
                             (30, '1个月'),
                             (60, '2个月'),
@@ -195,7 +200,8 @@ class CourseDetail(models.Model):
 
 class OftenAskedQuestion(models.Model):
     """常见问题"""
-    content_type = models.ForeignKey(ContentType,limit_choices_to={'model__contains': 'course'})  # 关联course or degree_course
+    content_type = models.ForeignKey(ContentType,
+                                     limit_choices_to={'model__contains': 'course'})  # 关联course or degree_course
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
@@ -252,14 +258,11 @@ class CourseSection(models.Model):
 
     video_time = models.CharField(verbose_name="视频时长", blank=True, null=True, max_length=32)  # 仅在前端展示使用
 
-
     pub_date = models.DateTimeField(verbose_name="发布时间", auto_now_add=True)
     free_trail = models.BooleanField("是否可试看", default=False)
 
-
     class Meta:
         unique_together = ('chapter', 'section_link')
-
 
     def __str__(self):
         return "%s-%s" % (self.chapter, self.name)
@@ -319,7 +322,17 @@ class Collection(models.Model):
     class Meta:
         unique_together = ('content_type', 'object_id', 'account')
 
+class Agree(models.Model):
+    """收藏"""
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
+    account = models.ForeignKey("Account")
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('content_type', 'object_id', 'account')
 class Comment(models.Model):
     """通用的评论表"""
     # content_type = models.ForeignKey(ContentType, blank=True, null=True, verbose_name="类型")
@@ -345,6 +358,9 @@ class Account(models.Model):
     username = models.CharField("用户名", max_length=64, unique=True)
     password = models.CharField('password', max_length=128)
 
+    def __str__(self):
+        return self.username
+
 
 class UserAuthToken(models.Model):
     """
@@ -354,20 +370,9 @@ class UserAuthToken(models.Model):
     token = models.CharField(max_length=40)
     created = models.DateTimeField(auto_now_add=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def save(self, *args, **kwargs):
+        md5 = hashlib.md5()
+        self.created = datetime.datetime.utcnow()
+        md5.update((self.user.username + self.user.password + str(self.created)).encode('utf-8'))
+        self.token = md5.hexdigest()
+        super(UserAuthToken, self).save(*args, **kwargs)
