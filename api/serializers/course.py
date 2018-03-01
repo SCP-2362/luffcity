@@ -1,9 +1,14 @@
-from rest_framework.serializers import ModelSerializer
+__all__ = [
+    "CourseModelSerializer", "CourseDetailModelSerializer", "CourseChapterModelSerializer",
+    "CourseQuestionModelSerializer", "PricePolicyModelSerializer", "CourseOutlineModelSerializer",
+    "CourseSectionModelSerializer", "DegreeCourseModelSerializer",
+]
+
 from rest_framework import serializers
 from .. import models
 
 
-class CourseSerializer(ModelSerializer):
+class CourseModelSerializer(serializers.ModelSerializer):
     level = serializers.SerializerMethodField()
     detail = serializers.SerializerMethodField()
 
@@ -17,10 +22,10 @@ class CourseSerializer(ModelSerializer):
 
     def get_detail(self, obj):
         detail_obj = models.CourseDetail.objects.filter(course=obj).first()
-        return CourseDetailSerializer(detail_obj).data
+        return CourseDetailModelSerializer(detail_obj).data
 
 
-class CourseDetailSerializer(ModelSerializer):
+class CourseDetailModelSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
     outline = serializers.SerializerMethodField()
 
@@ -31,13 +36,13 @@ class CourseDetailSerializer(ModelSerializer):
         depth = 2
 
     def get_price(self, obj):
-        return PricePolicySerializer(obj.course.price_policy.all(), many=True).data
+        return PricePolicyModelSerializer(obj.course.price_policy.all(), many=True).data
 
     def get_outline(self, obj):
-        return CourseOutlineSerializer(obj.courseoutline_set.all(), many=True).data
+        return CourseOutlineModelSerializer(obj.courseoutline_set.all(), many=True).data
 
 
-class CourseChapterSerializer(ModelSerializer):
+class CourseChapterModelSerializer(serializers.ModelSerializer):
     coursesections = serializers.SerializerMethodField()
 
     class Meta:
@@ -46,10 +51,10 @@ class CourseChapterSerializer(ModelSerializer):
         depth = 1
 
     def get_coursesections(self, obj):
-        return CourseSectionSerializer(obj.coursesections.all(), many=True).data
+        return CourseSectionModelSerializer(obj.coursesections.all(), many=True).data
 
 
-class CourseQuestionSerializer(ModelSerializer):
+class CourseQuestionModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.OftenAskedQuestion
@@ -57,7 +62,7 @@ class CourseQuestionSerializer(ModelSerializer):
         depth = 2
 
 
-class PricePolicySerializer(ModelSerializer):
+class PricePolicyModelSerializer(serializers.ModelSerializer):
     valid_period = serializers.SerializerMethodField()
 
     class Meta:
@@ -69,44 +74,22 @@ class PricePolicySerializer(ModelSerializer):
         return obj.get_valid_period_display()
 
 
-class CourseOutlineSerializer(ModelSerializer):
+class CourseOutlineModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseOutline
         fields = "__all__"
         depth = 2
 
 
-class CourseSectionSerializer(ModelSerializer):
+class CourseSectionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseSection
         fields = "__all__"
         depth = 1
 
 
-class DegreeCourseSerializer(ModelSerializer):
+class DegreeCourseModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DegreeCourse
         fields = "__all__"
         depth = 2
-
-
-class ArticleSerializer(serializers.Serializer):
-    pk = serializers.CharField()
-    title = serializers.CharField()       #标题
-    source = serializers.CharField(source='source.name')   #来源
-    brief = serializers.CharField()   # 摘要
-    date = serializers.CharField() #日期
-    comment_num = serializers.CharField() #评论数
-    agree_num = serializers.CharField()
-    view_num = serializers.CharField() #观看数
-    collect_num = serializers.CharField() #收藏数
-
-
-class ArticleContentSerializer(serializers.Serializer):
-    title = serializers.CharField()  # 标题
-    agree_num = serializers.CharField()
-    content = serializers.CharField() #文章详情
-    collect_num = serializers.CharField()  # 收藏数
-
-
-
