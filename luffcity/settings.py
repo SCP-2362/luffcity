@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api.middlewares.cors.CORSMiddleware',
 ]
 
 ROOT_URLCONF = 'luffcity.urls'
@@ -76,10 +77,26 @@ WSGI_APPLICATION = 'luffcity.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    
-
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'luffcity',
+        'USER': 'luff',
+        'PASSWORD': '123',
+        'HOST': '192.168.20.178',
+        'PORT': '3306'
+    }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'luffcity',
+#         'USER': 'luff',
+#         'PASSWORD': '123',
+#         'HOST': '192.168.20.178 ',
+#         'PORT': '3306'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
