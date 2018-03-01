@@ -45,6 +45,7 @@ class LoginView(APIView):
         return JsonResponse(res)
 
     def options(self, request, *args, **kwargs):
+        request.query_params
         return JsonResponse({
             "state": 10000,
             "data": None,
