@@ -322,7 +322,17 @@ class Collection(models.Model):
     class Meta:
         unique_together = ('content_type', 'object_id', 'account')
 
+class Agree(models.Model):
+    """收藏"""
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
+    account = models.ForeignKey("Account")
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('content_type', 'object_id', 'account')
 class Comment(models.Model):
     """通用的评论表"""
     # content_type = models.ForeignKey(ContentType, blank=True, null=True, verbose_name="类型")
