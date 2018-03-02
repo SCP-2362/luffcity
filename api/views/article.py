@@ -22,6 +22,7 @@ class NewsView(APIView):
             else:
                 article = models.Article.objects.all()
                 ret = ArticleSerializer(instance=article, many=True)
+                ret.is_valid()
             result['data'] = ret.data
             return JsonResponse(result)
         except Exception as e:
