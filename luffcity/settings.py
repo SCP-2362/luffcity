@@ -135,3 +135,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+    'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSIONS': ['v1', ],
+    'VERSION_PARAM': 'version',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        # "api.utils.auth.token_auth.LuffyTokenAuthentication",
+    ]
+}
+
+SHOPPING_CART_KEY = "luffcity_shopping_cart"

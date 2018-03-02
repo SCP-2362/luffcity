@@ -1,11 +1,7 @@
-__all__ = [
-    "CourseModelSerializer", "CourseDetailModelSerializer", "CourseChapterModelSerializer",
-    "CourseQuestionModelSerializer", "PricePolicyModelSerializer", "CourseOutlineModelSerializer",
-    "CourseSectionModelSerializer", "DegreeCourseModelSerializer",
-]
-
 from rest_framework import serializers
 from .. import models
+
+from .price import *
 
 
 class CourseModelSerializer(serializers.ModelSerializer):
@@ -60,18 +56,6 @@ class CourseQuestionModelSerializer(serializers.ModelSerializer):
         model = models.OftenAskedQuestion
         fields = '__all__'
         depth = 2
-
-
-class PricePolicyModelSerializer(serializers.ModelSerializer):
-    valid_period = serializers.SerializerMethodField()
-
-    class Meta:
-        model = models.PricePolicy
-        fields = '__all__'
-        depth = 2
-
-    def get_valid_period(self, obj):
-        return obj.get_valid_period_display()
 
 
 class CourseOutlineModelSerializer(serializers.ModelSerializer):

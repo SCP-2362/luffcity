@@ -20,5 +20,5 @@ from api import urls as api_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(api_urls))
+    url(r'^api/(?P<version>[a-z0-9]*)/', include(api_urls))
 ]

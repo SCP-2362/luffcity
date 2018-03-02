@@ -1,5 +1,3 @@
-__all__ = ["ArticleSerializer", "ArticleContentSerializer"]
-
 
 from rest_framework import serializers
 

@@ -17,13 +17,29 @@ admin.site.register(models.CourseDetail)
 admin.site.register(models.OftenAskedQuestion)
 admin.site.register(models.Teacher)
 
+admin.site.register(models.CourseReview)
+admin.site.register(models.CourseSchedule)
+admin.site.register(models.DegreeCourseReview)
+admin.site.register(models.EnrolledCourse)
+admin.site.register(models.EnrolledDegreeCourse)
+admin.site.register(models.StudyRecord)
+admin.site.register(models.Homework)
+admin.site.register(models.HomeworkRecord)
+admin.site.register(models.StuFollowUpRecord)
+admin.site.register(models.DegreeRegistrationForm)
+
 # 深科技相关
 admin.site.register(models.ArticleSource)
 admin.site.register(models.Article)
+admin.site.register(models.Agree)
 admin.site.register(models.Comment)
 admin.site.register(models.Collection)
 
 # 账户相关
 admin.site.register(models.Account)
+admin.site.register(models.CouponRecord)
 admin.site.register(models.UserAuthToken)
+admin.site.register(models.TransactionRecord)
+admin.site.register(models.Order)
+admin.site.register(models.OrderDetail)
 
