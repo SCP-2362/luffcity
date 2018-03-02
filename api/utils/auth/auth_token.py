@@ -3,10 +3,10 @@ import datetime
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
-from .. import models
+from api import models
 
 
-class MyTokenAuth(BaseAuthentication):
+class LuffyCityTokenAuth(BaseAuthentication):
     keyword = "token"
     model = models.UserAuthToken
     valid_period = 86400000            # 86400000毫秒=24小时
@@ -37,6 +37,8 @@ class MyTokenAuth(BaseAuthentication):
         if token_exist_period > self.valid_period:
             self.res["msg"] = "认证已过期，请重新登录！"
             raise AuthenticationFailed(self.res)
+
+        return auth.user, auth
 
     def get_token_exist_period(self, auth):
         now = datetime.datetime.now()

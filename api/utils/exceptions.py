@@ -1,0 +1,4 @@
+
+
+class PricePolicyDoesNotExist(Exception):
+    pass
