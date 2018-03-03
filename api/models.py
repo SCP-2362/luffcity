@@ -380,6 +380,7 @@ class Comment(models.Model):
 
 
 class Account(models.Model):
+    '''谁买了课程的用户信息'''
     username = models.CharField("用户名", max_length=64, unique=True)
     email = models.EmailField(
         verbose_name='email address',
@@ -710,7 +711,7 @@ class Order(models.Model):
     """订单"""
     payment_type_choices = ((0, '微信'), (1, '支付宝'), (2, '优惠码'), (3, '贝里'))
     payment_type = models.SmallIntegerField(choices=payment_type_choices)
-    payment_number = models.CharField(max_length=128, verbose_name="支付第3方订单号", null=True, blank=True)
+    payment_number = models.CharField(max_length=128, verbose_name="支付第3方订单号", null=True, blank=True)  #这个是支付宝生成的订单号
     order_number = models.CharField(max_length=128, verbose_name="订单号", unique=True)  # 考虑到订单合并支付的问题
     account = models.ForeignKey("Account")
     actual_amount = models.FloatField(verbose_name="实付金额")
