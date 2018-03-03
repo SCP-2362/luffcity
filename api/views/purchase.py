@@ -38,9 +38,7 @@ class ShoppingCartView(AuthForView, APIView):
             course_obj = models.Course.objects.get(pk=course_id)
             price_list = course_obj.price_policy.all()
             goods_info = {
-                "price_policy_list": [
-                    {"id": p.id, "price": p.price, "valid_period": p.get_valid_period_display()}
-                    for p in price_list],
+                "price_policy_list": [{"id": p.id, "price": p.price, "valid_period": p.get_valid_period_display()} for p in price_list],
                 "default_price_id": price_policy_id,
                 "course_id": course_obj.id,
                 "course_name": course_obj.name,

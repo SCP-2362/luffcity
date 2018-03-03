@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,11 @@ REST_FRAMEWORK = {
 }
 
 SHOPPING_CART_KEY = "luffcity_shopping_cart"
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
+
+
