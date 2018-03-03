@@ -6,6 +6,7 @@ from api.views.auth import *
 
 
 from api.views.purchase import *
+from api.views.settlement_list import *
 
 
 
@@ -24,5 +25,6 @@ urlpatterns = [
     url(r'^shoucang/(?P<pk>\d+)/$', NewsViewSC.as_view()),
 
     url(r'^shopping_cart/$', ShoppingCartView.as_view()),
+    url(r'^settlement-list/$', SettlementListView.as_view()),
 
 ]

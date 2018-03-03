@@ -147,3 +147,4 @@ REST_FRAMEWORK = {
 }
 
 SHOPPING_CART_KEY = "luffcity_shopping_cart"
+SETTLEMENT_LIST_KEY = "settlement_list"

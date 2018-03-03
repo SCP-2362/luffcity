@@ -422,6 +422,7 @@ class Account(models.Model):
 
     memo = models.TextField('备注', blank=True, null=True, default=None)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name="注册时间")
+    # coupon= GenericRelation("Coupon")
 
     class Meta:
         verbose_name = '账户信息'
