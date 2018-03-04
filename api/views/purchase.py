@@ -1,6 +1,7 @@
 import hashlib
 import json
 import time
+import datetime
 
 import redis
 from django.conf import settings
@@ -330,14 +331,21 @@ class OrderView(AuthForView, APIView):
             :param coupon_record: 优惠卷
             :return: 优惠后的价格
             """
+            flag = False
             coupon = coupon_record.coupon
             if coupon.coupon_type == 0:  # 通用卷
                 price = price - coupon.money_equivalent_value
+                flag = True
             elif coupon.coupon_type == 2:  # 折扣卷
                 price = price * (coupon.off_percent / 100)
+                flag = True
             else:  # 满减卷
                 # 原价达到最低消费则满减
                 price = price - coupon.money_equivalent_value if price > coupon.minimum_consume else 0
+                flag = True
+            if flag:
+                coupon_record.status = 1
+                coupon_record.used_time = datetime.datetime.utcnow()
             return price
 
         total_price = 0.0
