@@ -9,7 +9,7 @@ from api import models
 class LuffyCityTokenAuth(BaseAuthentication):
     keyword = "token"
     model = models.UserAuthToken
-    valid_period = 86400000            # 86400000毫秒=24小时
+    valid_period = 86400000  # 86400000毫秒=24小时
     # valid_period = 100000            # 86400000毫秒=24小时
 
     res = {
@@ -43,5 +43,3 @@ class LuffyCityTokenAuth(BaseAuthentication):
     def get_token_exist_period(self, auth):
         now = datetime.datetime.now()
         return now.timestamp() - auth.created.timestamp()
-
-

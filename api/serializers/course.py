@@ -1,12 +1,11 @@
-from rest_framework import serializers
-from .. import models
-
 from .price import *
 
 
 class CourseModelSerializer(serializers.ModelSerializer):
     level = serializers.SerializerMethodField()
     detail = serializers.SerializerMethodField()
+
+    # price_policy=serializers.SerializerMethodField()
 
     class Meta:
         model = models.Course
@@ -19,6 +18,7 @@ class CourseModelSerializer(serializers.ModelSerializer):
     def get_detail(self, obj):
         detail_obj = models.CourseDetail.objects.filter(course=obj).first()
         return CourseDetailModelSerializer(detail_obj).data
+        # def get_price_policy(self,obj):
 
 
 class CourseDetailModelSerializer(serializers.ModelSerializer):
@@ -51,7 +51,6 @@ class CourseChapterModelSerializer(serializers.ModelSerializer):
 
 
 class CourseQuestionModelSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.OftenAskedQuestion
         fields = '__all__'

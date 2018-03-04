@@ -1,5 +1,5 @@
-import hashlib
 import datetime
+import hashlib
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -152,7 +152,7 @@ class PricePolicy(models.Model):
         (90, '3个月'),
         (180, '6个月'), (210, '12个月'),
         (540, '18个月'), (720, '24个月'),
-        )
+    )
     valid_period = models.SmallIntegerField(choices=valid_period_choices)
     price = models.FloatField()
 
@@ -380,6 +380,7 @@ class Comment(models.Model):
 
 
 class Account(models.Model):
+    """谁买了课程的用户信息"""
     username = models.CharField("用户名", max_length=64, unique=True)
     email = models.EmailField(
         verbose_name='email address',
@@ -422,6 +423,8 @@ class Account(models.Model):
 
     memo = models.TextField('备注', blank=True, null=True, default=None)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name="注册时间")
+
+    # coupon= GenericRelation("Coupon")
 
     class Meta:
         verbose_name = '账户信息'
@@ -709,7 +712,7 @@ class Order(models.Model):
     """订单"""
     payment_type_choices = ((0, '微信'), (1, '支付宝'), (2, '优惠码'), (3, '贝里'))
     payment_type = models.SmallIntegerField(choices=payment_type_choices)
-    payment_number = models.CharField(max_length=128, verbose_name="支付第3方订单号", null=True, blank=True)
+    payment_number = models.CharField(max_length=128, verbose_name="支付第3方订单号", null=True, blank=True)  # 这个是支付宝生成的订单号
     order_number = models.CharField(max_length=128, verbose_name="订单号", unique=True)  # 考虑到订单合并支付的问题
     account = models.ForeignKey("Account")
     actual_amount = models.FloatField(verbose_name="实付金额")
