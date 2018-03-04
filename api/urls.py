@@ -8,7 +8,6 @@ from api.views.auth import *
 from api.views.purchase import *
 
 
-
 urlpatterns = [
     url(r'^login/$', LoginView.as_view()),
 
@@ -24,5 +23,8 @@ urlpatterns = [
     url(r'^shoucang/(?P<pk>\d+)/$', NewsViewSC.as_view()),
 
     url(r'^shopping_cart/$', ShoppingCartView.as_view()),
+    url(r'^settlement-list/$', SettlementListView.as_view()),
+
+    url(r'^order/$', OrderView.as_view()),
 
 ]

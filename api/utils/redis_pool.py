@@ -1,5 +1,5 @@
 import redis
 
-POOL = redis.ConnectionPool(host="192.168.20.100", port=6379)
+POOL = redis.ConnectionPool(host="192.168.40.128", port=6380)
 
 
