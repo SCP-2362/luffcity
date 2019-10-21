@@ -1,6 +1,6 @@
 certifi==2017.11.5
 chardet==3.0.4
-Django==1.11
+Django==1.11.23
 django-appconf==1.0.2
 django-axes==4.0.1
 django-axes-login-actions==1.2.0
